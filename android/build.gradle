@@ -1,0 +1,34 @@
+buildscript {
+    ext.kotlin_version = '1.9.80'
+    repositories {
+        google()  // Make sure this is added to the repositories block
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.2.1" // Or newer
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // Add this line for Firebase plugin
+        classpath 'com.google.gms:google-services:4.4.2'  // Add this line
+    }
+}
+
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
